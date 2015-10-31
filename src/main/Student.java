@@ -6,9 +6,8 @@ import java.util.List;
 
 public class Student {
 	public String name;
-	public boolean isIn = false;
+	private boolean isIn = false;
 
-	public Record record;
 	public List<Record> records;
 	
 	public Student(String name){

@@ -17,7 +17,7 @@ public class ListAvailableCommandHandler extends CommandHandler {
 		
 		for(Map.Entry<String, Student> iterator : students.entrySet()){
 			student = iterator.getValue();
-			if(student.isIn)
+			if(student.isIn())
 				str.append(":" + student.name);
 		}
 		
