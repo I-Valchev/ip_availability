@@ -1,4 +1,4 @@
-package work_01_refactor;
+package main;
 
 import java.util.Date;
 import java.util.Map;

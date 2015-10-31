@@ -1,4 +1,4 @@
-package work_01_refactor;
+package main;
 
 public interface CommandHandlerOld {
 	public int execute();
