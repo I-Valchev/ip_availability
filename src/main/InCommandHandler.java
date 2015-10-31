@@ -4,13 +4,9 @@ import java.util.Date;
 import java.util.Map;
 
 public class InCommandHandler extends CommandHandler {
-	private String studentName;
-	private Map<String, Student> students;
-	
+
 	public InCommandHandler(String studentName, Map<String, Student> students){
-		super(students);
-		this.students = students;
-		this.studentName = studentName;
+		super(studentName, students);
 	}
 	
 	@Override
@@ -20,16 +16,24 @@ public class InCommandHandler extends CommandHandler {
 	}
 
 	@Override
-	public String perform() {
+	protected String perform() {
+		
+		Student student;
+		
 		if(students.containsKey(studentName)){
-			Student oldStudent = students.get(studentName);
-			oldStudent.in(new Date());
+			student = students.get(studentName);
 		}else{
-			Student newStudent = new Student(studentName);
-			newStudent.in(new Date());
-			students.put(studentName, newStudent);
+			student = new Student(studentName);
+			students.put(studentName, student);
 		}
+		
+		login(student);
+		
 		return "ok";
+	}
+	
+	private void login(Student student){
+		student.in(new Date());
 	}
 
 }

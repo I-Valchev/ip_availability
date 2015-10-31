@@ -9,10 +9,11 @@ public class Main {
 	static Map<String, Student> students;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
 //		initialization
 		System.out.println("hello");
 		students = new HashMap<String, Student>();
+		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
 		String input;
 		
@@ -21,7 +22,7 @@ public class Main {
 			input = in.nextLine();
 			
 			CommandHandler handler = parse(input);
-			System.out.println(handler.perform());
+			System.out.println(handler.execute());
 		}
 	}
 	
@@ -36,9 +37,9 @@ public class Main {
 		}else if("info".equals(split[1])){
 			return new InfoCommandHandler(split, students);
 		}else if("listavailable".equals(split[1])){
-			return new ListAvailableCommandHandler(students);
+			return new ListAvailableCommandHandler(split[0], students);
 		}else if("shutdown".equals(split[1])){
-			return new ShutdownCommandHandler(students);
+			return new ShutdownCommandHandler(split[0], students);
 		}
 		throw new IllegalArgumentException("error: unknowncommand");
 	}

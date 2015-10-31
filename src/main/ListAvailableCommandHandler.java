@@ -5,13 +5,13 @@ import java.util.Map;
 public class ListAvailableCommandHandler extends CommandHandler {
 	private Map<String, Student> students;
 	
-	public ListAvailableCommandHandler(Map<String, Student> students){
-		super(students);
+	public ListAvailableCommandHandler(String studentName, Map<String, Student> students){
+		super(studentName, students);
 		this.students = students;
 	}
 	
 	@Override
-	public String perform() {
+	protected String perform() {
 		Student student;
 		StringBuilder str = new StringBuilder();
 		str.append("ok");
