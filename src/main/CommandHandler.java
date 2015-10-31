@@ -8,8 +8,9 @@ public abstract class CommandHandler {
 	protected String studentName;
 	
 	public String execute(){
-		authenticate();
-		return perform();
+		if(authenticate())
+			return perform();
+		return "error: not logged";
 	}
 	
 	protected abstract String perform();
@@ -20,7 +21,7 @@ public abstract class CommandHandler {
 	}
 	
 	public boolean authenticate(){
-		return this.students.containsKey(studentName);
+		return this.students.containsKey(studentName) && students.get(studentName).isIn();
 	}
 	
 }

@@ -12,7 +12,6 @@ public class InfoCommandHandler extends CommandHandler {
 	protected String perform() {
 		Student student = students.get(studentName);
 		int loginCount = student.records.size();	
-		System.out.println("Returning here...");
 		return ("ok:" + studentName + ":" + student.isIn + ":" + loginCount);
 	}
 	

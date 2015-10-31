@@ -12,13 +12,9 @@ public class OutCommandHandler extends CommandHandler {
 	@Override
 	protected String perform() {
 		// TODO Auto-generated method stub
-		if(students.containsKey(studentName)){
-			Student student = students.get(studentName);
-			student.out(new Date());
-			return "ok";
-		}
-		
-		return "error: already logged in";
+		Student student = students.get(studentName);
+		student.out(new Date());
+		return "ok";
 	}
 
 }

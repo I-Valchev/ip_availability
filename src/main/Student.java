@@ -7,6 +7,7 @@ import java.util.List;
 public class Student {
 	public String name;
 	public boolean isIn = false;
+
 	public Record record;
 	public List<Record> records;
 	
@@ -31,5 +32,13 @@ public class Student {
 		lastRecord.setOutTime(outTime);
 		records.set(records.size()-1, lastRecord);
 		isIn = false;
+	}
+	
+	public boolean isIn() {
+		return isIn;
+	}
+
+	public void setIn(boolean isIn) {
+		this.isIn = isIn;
 	}
 }
