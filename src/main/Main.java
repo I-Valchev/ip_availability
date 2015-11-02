@@ -11,7 +11,6 @@ public class Main {
 	public static void main(String[] args) {
 
 //		initialization
-		System.out.println("hello");
 		students = new HashMap<String, Student>();
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
@@ -28,19 +27,23 @@ public class Main {
 	
 	
 	public static CommandHandler parse(String input){
-		final String[] split = input.split(":");
-		
-		if("login".equals(split[1])){
-			return new InCommandHandler(split[0], students);
-		}else if("logout".equals(split[1])){
-			return new OutCommandHandler(split[0], students);
-		}else if("info".equals(split[1])){
-			return new InfoCommandHandler(split, students);
-		}else if("listavailable".equals(split[1])){
-			return new ListAvailableCommandHandler(split[0], students);
-		}else if("shutdown".equals(split[1])){
-			return new ShutdownCommandHandler(split[0], students);
+		try{
+			final String[] split = input.split(":");
+			if("login".equals(split[1])){
+				return new InCommandHandler(split[0], students);
+			}else if("logout".equals(split[1])){
+				return new OutCommandHandler(split[0], students);
+			}else if("info".equals(split[1])){
+				return new InfoCommandHandler(split, students);
+			}else if("listavailable".equals(split[1])){
+				return new ListAvailableCommandHandler(split[0], students);
+			}else if("shutdown".equals(split[1])){
+				return new ShutdownCommandHandler(split[0], students);
+			}
+		}catch (Exception e){
+			throw new IllegalArgumentException("error: unknowncommand");
 		}
+		
 		throw new IllegalArgumentException("error: unknowncommand");
 	}
 
