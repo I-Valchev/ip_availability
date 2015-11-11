@@ -1,6 +1,7 @@
 package main;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,13 +12,13 @@ public class Main {
 
 	public static void main(String[] args) {	
 		students = new HashMap<String, Student>();
-		Server s = new Server(9004);
-		/*commandsList = new HashMap<String, Class<? extends CommandHandler>>();
+		Server s = new Server(9005);
+		commandsList = new HashMap<String, Class<? extends CommandHandler>>();
 		commandsList.put("login", InCommandHandler.class);
 		commandsList.put("logout", OutCommandHandler.class);
 		commandsList.put("info", InfoCommandHandler.class);
 		commandsList.put("listavailable", ListAvailableCommandHandler.class);
-		commandsList.put("shutdown", ShutdownCommandHandler.class);*/
+		commandsList.put("shutdown", ShutdownCommandHandler.class);
 		
 		try {
 			s.StartServer();
@@ -31,24 +32,28 @@ public class Main {
 		try{
 			final String[] split = input.split(":");
 			if("login".equals(split[1])){
-				return new InCommandHandler(split[0], students);
+				return new InCommandHandler(split, students);
 			}else if("logout".equals(split[1])){
-				return new OutCommandHandler(split[0], students);
+				return new OutCommandHandler(split, students);
 			}else if("info".equals(split[1])){
 				return new InfoCommandHandler(split, students);
 			}else if("listavailable".equals(split[1])){
-				return new ListAvailableCommandHandler(split[0], students);
+				return new ListAvailableCommandHandler(split, students);
 			}else if("shutdown".equals(split[1])){
-				return new ShutdownCommandHandler(split[0], students);
+				return new ShutdownCommandHandler(split, students);
 			}
 		}catch (Exception e){
 			throw new IllegalArgumentException("error: unknowncommand");
 		}
-		/*
-		final String[] split = input.split(":");
-		CommandHandler handler = commandsList.get(split[0]).getConstructor()
 		
-		return new commandsList.get(input.split(":")[0]);*/
+		/*final String[] split = input.split(":");
+		try {
+			CommandHandler handler = commandsList.get(split[0]).getConstructor().newInstance(split);
+			return handler;
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+		}*/
 		
 		throw new IllegalArgumentException("error: unknowncommand");
 	}

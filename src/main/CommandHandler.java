@@ -5,7 +5,7 @@ import java.util.Map;
 public abstract class CommandHandler {
 
 	protected static Map<String, Student> students;
-	protected String studentName;
+	protected String executorName, targetName;
 	
 	public String execute(){
 		if(authenticate())
@@ -15,12 +15,13 @@ public abstract class CommandHandler {
 	
 	protected abstract String perform();
 	
-	public CommandHandler(String studentName, Map<String, Student> students){
+	public CommandHandler(String[] split, Map<String, Student> students){
 		this.students = students;
-		this.studentName = studentName;
+		this.executorName = split[0];
+		targetName = (split.length > 2) ? split[2]:null;
 	}
 	
 	public boolean authenticate(){
-		return this.students.containsKey(studentName) && students.get(studentName).isIn();
+		return this.students.containsKey(executorName) && students.get(executorName).isIn();
 	}	
 }

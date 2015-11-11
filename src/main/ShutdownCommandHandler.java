@@ -4,8 +4,8 @@ import java.util.Map;
 
 public class ShutdownCommandHandler extends CommandHandler {
 
-	public ShutdownCommandHandler(String studentName, Map<String, Student> students) {
-		super(studentName, students);
+	public ShutdownCommandHandler(String [] split, Map<String, Student> students) {
+		super(split, students);
 	}
 
 	@Override

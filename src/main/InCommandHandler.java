@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class InCommandHandler extends CommandHandler {
 
-	public InCommandHandler(String studentName, Map<String, Student> students){
-		super(studentName, students);
+	public InCommandHandler(String[] split, Map<String, Student> students){
+		super(split, students);
 	}
 	
 	@Override
@@ -20,11 +20,11 @@ public class InCommandHandler extends CommandHandler {
 		
 		Student student;
 		
-		if(students.containsKey(studentName)){
-			student = students.get(studentName);
+		if(students.containsKey(executorName)){
+			student = students.get(executorName);
 		}else{
-			student = new Student(studentName);
-			students.put(studentName, student);
+			student = new Student(executorName);
+			students.put(executorName, student);
 		}
 		
 		login(student);
