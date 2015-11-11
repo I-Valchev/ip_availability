@@ -1,5 +1,6 @@
 package main;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -11,7 +12,7 @@ public class Main {
 	public static void main(String[] args) {
 
 //		initialization
-		students = new HashMap<String, Student>();
+		/*students = new HashMap<String, Student>();
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
 		String input;
@@ -22,29 +23,14 @@ public class Main {
 			
 			CommandHandler handler = parse(input);
 			System.out.println(handler.execute());
-		}
-	}
-	
-	
-	public static CommandHandler parse(String input){
-		try{
-			final String[] split = input.split(":");
-			if("login".equals(split[1])){
-				return new InCommandHandler(split[0], students);
-			}else if("logout".equals(split[1])){
-				return new OutCommandHandler(split[0], students);
-			}else if("info".equals(split[1])){
-				return new InfoCommandHandler(split, students);
-			}else if("listavailable".equals(split[1])){
-				return new ListAvailableCommandHandler(split[0], students);
-			}else if("shutdown".equals(split[1])){
-				return new ShutdownCommandHandler(split[0], students);
-			}
-		}catch (Exception e){
-			throw new IllegalArgumentException("error: unknowncommand");
-		}
+		}*/
 		
-		throw new IllegalArgumentException("error: unknowncommand");
+		Server s = new Server(8000);
+		try {
+			s.StartServer();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
 }
