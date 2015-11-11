@@ -9,7 +9,7 @@ public class InfoCommandHandler extends CommandHandler {
 	}
 
 	@Override
-	protected String perform() {
+	protected String perform() {		
 		Student student = students.get(studentName);
 		int loginCount = student.records.size();	
 		return ("ok:" + studentName + ":" + student.isIn() + ":" + loginCount);

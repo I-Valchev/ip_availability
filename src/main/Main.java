@@ -11,7 +11,7 @@ public class Main {
 
 	public static void main(String[] args) {	
 		students = new HashMap<String, Student>();
-		Server s = new Server(8000);
+		Server s = new Server(9004);
 		/*commandsList = new HashMap<String, Class<? extends CommandHandler>>();
 		commandsList.put("login", InCommandHandler.class);
 		commandsList.put("logout", OutCommandHandler.class);
