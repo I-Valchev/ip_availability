@@ -1,24 +1,16 @@
 package main;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
 	
 	static Map<String, Student> students;
-	static Map<String, Class<? extends CommandHandler>> commandsList;
 
 	public static void main(String[] args) {	
 		students = new HashMap<String, Student>();
-		Server s = new Server(9005);
-		commandsList = new HashMap<String, Class<? extends CommandHandler>>();
-		commandsList.put("login", InCommandHandler.class);
-		commandsList.put("logout", OutCommandHandler.class);
-		commandsList.put("info", InfoCommandHandler.class);
-		commandsList.put("listavailable", ListAvailableCommandHandler.class);
-		commandsList.put("shutdown", ShutdownCommandHandler.class);
+		Server s = new Server(9008);
 		
 		try {
 			s.StartServer();
@@ -45,15 +37,6 @@ public class Main {
 		}catch (Exception e){
 			throw new IllegalArgumentException("error: unknowncommand");
 		}
-		
-		/*final String[] split = input.split(":");
-		try {
-			CommandHandler handler = commandsList.get(split[0]).getConstructor().newInstance(split);
-			return handler;
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
-		}*/
 		
 		throw new IllegalArgumentException("error: unknowncommand");
 	}
