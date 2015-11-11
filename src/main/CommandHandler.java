@@ -4,7 +4,7 @@ import java.util.Map;
 
 public abstract class CommandHandler {
 
-	protected Map<String, Student> students;
+	protected static Map<String, Student> students;
 	protected String studentName;
 	
 	public String execute(){
@@ -22,6 +22,5 @@ public abstract class CommandHandler {
 	
 	public boolean authenticate(){
 		return this.students.containsKey(studentName) && students.get(studentName).isIn();
-	}
-	
+	}	
 }

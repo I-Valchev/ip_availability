@@ -11,6 +11,7 @@ public class ShutdownCommandHandler extends CommandHandler {
 	@Override
 	protected String perform() {
 		// TODO Auto-generated method stub
+//		server.stop();
 		System.exit(0);
 		return "ok";
 	}
