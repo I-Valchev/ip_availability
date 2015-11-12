@@ -16,12 +16,12 @@ public abstract class CommandHandler {
 	protected abstract String perform();
 	
 	public CommandHandler(String[] split, Map<String, Student> students){
-		this.students = students;
+		CommandHandler.students = students;
 		this.executorName = split[0];
 		targetName = (split.length > 2) ? split[2]:null;
 	}
 	
 	public boolean authenticate(){
-		return this.students.containsKey(executorName) && students.get(executorName).isIn();
+		return students.containsKey(executorName) && students.get(executorName).isIn();
 	}	
 }
