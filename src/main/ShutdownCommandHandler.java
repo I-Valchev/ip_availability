@@ -6,9 +6,9 @@ public class ShutdownCommandHandler extends CommandHandler {
 	
 	Server server;
 
-	public ShutdownCommandHandler(String [] split, Map<String, Student> students, Server server) {
+	public ShutdownCommandHandler(String [] split) {
 		super(split, students);
-		this.server = server;
+		this.server = Main.server;
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class InfoCommandHandler extends CommandHandler {
 
-	public InfoCommandHandler(String[] split, Map<String, Student> students) {
+	public InfoCommandHandler(String[] split, Map<String, ClientHandler> students) {
 		super(split, students);
 	}
 
@@ -20,7 +20,7 @@ public class InfoCommandHandler extends CommandHandler {
 	@Override
 	protected String perform() {
 		StringBuilder str = new StringBuilder();
-		Student student = students.get(targetName);
+		ClientHandler student = students.get(targetName);
 		int loginCount = student.records.size();
 		str.append("ok:" + targetName + ":" + student.isIn() + ":" + loginCount + ":");
 		

@@ -5,8 +5,11 @@ import java.util.Map;
 
 public class InCommandHandler extends CommandHandler {
 
-	public InCommandHandler(String[] split, Map<String, Student> students){
+	ClientHandler clientHandler;
+	
+	public InCommandHandler(String[] split, Map<String, ClientHandler> students, ClientHandler clientHandler){
 		super(split, students);
+		this.clientHandler = clientHandler;
 	}
 	
 	@Override
@@ -17,22 +20,22 @@ public class InCommandHandler extends CommandHandler {
 
 	@Override
 	protected String perform() {
-		
-		Student student;
-		
+			
 		if(students.containsKey(executorName)){
-			student = students.get(executorName);
+			clientHandler = students.get(executorName);
 		}else{
-			student = new Student(executorName);
-			students.put(executorName, student);
+			clientHandler.name = executorName;
+			students.put(executorName, clientHandler);
 		}
 		
-		login(student);
+		login(clientHandler);
+		
+//		TODO how should we add a new client
 		
 		return "ok";
 	}
 	
-	private void login(Student student){
+	private void login(ClientHandler student){
 		student.in(new Date());
 	}
 
