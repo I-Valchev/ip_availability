@@ -65,22 +65,16 @@ public class Server {
 	public static CommandHandler parse(String input, ClientHandler client){
 		
 		final String[] split = input.split(":");
-		if(client.name != null && !client.name.equals(split[0]))
-			throw new IllegalArgumentException("error: another user on this socket");
-		else return getCommand(split, client);
-	}
-	
-	public static CommandHandler getCommand(String[] split, ClientHandler client){
-		if("login".equals(split[1])){
+		if("login".equals(split[0])){
 			return new InCommandHandler(split, students, client);
-		}if("logout".equals(split[1])){
-			return new OutCommandHandler(split, students);
-		}else if("info".equals(split[1])){
-			return new InfoCommandHandler(split, students);
-		}else if("listavailable".equals(split[1])){
-			return new ListAvailableCommandHandler(split, students);
-		}else if("shutdown".equals(split[1])){
-			return new ShutdownCommandHandler(split);
+		}if("logout".equals(split[0])){
+			return new OutCommandHandler(split, students, client);
+		}else if("info".equals(split[0])){
+			return new InfoCommandHandler(split, students, client);
+		}else if("listavailable".equals(split[0])){
+			return new ListAvailableCommandHandler(split, students, client);
+		}else if("shutdown".equals(split[0])){
+			return new ShutdownCommandHandler(split, client);
 		}
 		
 		throw new IllegalArgumentException("error: unknown command");

@@ -15,10 +15,10 @@ public abstract class CommandHandler {
 	
 	protected abstract String perform();
 	
-	public CommandHandler(String[] split, Map<String, ClientHandler> students){
+	public CommandHandler(String[] split, Map<String, ClientHandler> students, ClientHandler clientHandler){
 		CommandHandler.students = students;
-		this.executorName = split[0];
-		targetName = (split.length > 2) ? split[2]:null;
+		this.executorName = clientHandler.name;
+		targetName = (split.length > 1) ? split[1]:null;
 	}
 	
 	public boolean authenticate(){

@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class OutCommandHandler extends CommandHandler {
 	
-	public OutCommandHandler(String[] split, Map<String, ClientHandler> students){
-		super(split, students);
+	public OutCommandHandler(String[] split, Map<String, ClientHandler> students, ClientHandler clientHandler){
+		super(split, students, clientHandler);
 	}
 
 	@Override

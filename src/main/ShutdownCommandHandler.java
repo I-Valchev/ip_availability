@@ -4,8 +4,8 @@ public class ShutdownCommandHandler extends CommandHandler {
 	
 	Server server;
 
-	public ShutdownCommandHandler(String [] split) {
-		super(split, students);
+	public ShutdownCommandHandler(String [] split, ClientHandler clientHandler) {
+		super(split, students, clientHandler);
 		this.server = Main.server;
 	}
 

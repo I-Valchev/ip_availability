@@ -8,7 +8,8 @@ public class InCommandHandler extends CommandHandler {
 	ClientHandler clientHandler;
 	
 	public InCommandHandler(String[] split, Map<String, ClientHandler> students, ClientHandler clientHandler){
-		super(split, students);
+		super(split, students, clientHandler);
+		this.executorName = split[1];
 		this.clientHandler = clientHandler;
 	}
 	
@@ -20,7 +21,6 @@ public class InCommandHandler extends CommandHandler {
 
 	@Override
 	protected String perform() {
-			
 		if(students.containsKey(executorName)){
 			clientHandler = students.get(executorName);
 		}else{

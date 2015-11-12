@@ -7,14 +7,13 @@ import java.util.Map;
 
 public class InfoCommandHandler extends CommandHandler {
 
-	public InfoCommandHandler(String[] split, Map<String, ClientHandler> students) {
-		super(split, students);
+	public InfoCommandHandler(String[] split, Map<String, ClientHandler> students, ClientHandler clientHandler) {
+		super(split, students, clientHandler);
 	}
 
 	@Override
 	public boolean authenticate() {
-		return (students.containsKey(executorName) && students.get(executorName).isIn())
-				&& (students.containsKey(targetName));
+		return super.authenticate() && (students.containsKey(targetName));
 	}
 
 	@Override

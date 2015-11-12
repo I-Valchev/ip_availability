@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import com.sun.net.ssl.internal.www.protocol.https.Handler;
-
 public class ClientHandler implements Runnable{
 	private final Socket socket;
 	public String name = null;
@@ -31,7 +29,6 @@ public class ClientHandler implements Runnable{
 		
 			while(scanner.hasNextLine()){
 				final String line = scanner.nextLine();
-				new Main();
 				CommandHandler handler = Server.parse(line, this);
 				out.println(handler.execute());
 			}	
