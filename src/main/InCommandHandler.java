@@ -7,7 +7,7 @@ public class InCommandHandler extends CommandHandler {
 
 	ClientHandler clientHandler;
 	
-	public InCommandHandler(String[] split, Map<String, ClientHandler> students, ClientHandler clientHandler){
+	public InCommandHandler(String[] split, Map<String, User> students, ClientHandler clientHandler){
 		super(split, students, clientHandler);
 		this.executorName = split[1];
 		this.clientHandler = clientHandler;
@@ -21,13 +21,20 @@ public class InCommandHandler extends CommandHandler {
 
 	@Override
 	protected String perform() {
-		if(students.containsKey(executorName)){
+		/*if(students.containsKey(executorName)){
 			clientHandler = students.get(executorName);
 		}else{
-			clientHandler.name = executorName;
+			clientHandler.user.name = executorName;
 			students.put(executorName, clientHandler);
-		}
+		}*/
 		
+		
+		if(students.containsKey(executorName))
+			clientHandler.user = students.get(executorName);
+		else{
+			clientHandler.user = new User(executorName);
+			students.put(executorName, clientHandler.user);
+		}
 		login(clientHandler);
 		
 //		TODO how should we add a new client
@@ -35,8 +42,8 @@ public class InCommandHandler extends CommandHandler {
 		return "ok";
 	}
 	
-	private void login(ClientHandler student){
-		student.in(new Date());
+	private void login(ClientHandler client){
+		client.user.in(new Date());
 	}
 
 }

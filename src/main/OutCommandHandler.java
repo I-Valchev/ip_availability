@@ -5,15 +5,18 @@ import java.util.Map;
 
 public class OutCommandHandler extends CommandHandler {
 	
-	public OutCommandHandler(String[] split, Map<String, ClientHandler> students, ClientHandler clientHandler){
+	ClientHandler clientHandler;
+	
+	public OutCommandHandler(String[] split, Map<String, User> students, ClientHandler clientHandler){
 		super(split, students, clientHandler);
+		this.clientHandler = clientHandler;
 	}
 
 	@Override
 	protected String perform() {
 		// TODO Auto-generated method stub
-		ClientHandler student = students.get(executorName);
-		student.out(new Date());
+		clientHandler.user.out(new Date());
+		clientHandler.user = new User();
 		return "ok";
 	}
 

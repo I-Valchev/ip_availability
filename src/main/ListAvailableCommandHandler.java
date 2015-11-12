@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class ListAvailableCommandHandler extends CommandHandler {
 	
-	public ListAvailableCommandHandler(String[] split, Map<String, ClientHandler> students, ClientHandler clientHandler){
+	public ListAvailableCommandHandler(String[] split, Map<String, User> students, ClientHandler clientHandler){
 		super(split, students, clientHandler);
 	}
 	
@@ -12,11 +12,11 @@ public class ListAvailableCommandHandler extends CommandHandler {
 	protected String perform() {
 		StringBuilder str = new StringBuilder();
 		str.append("ok");
-		ClientHandler student;
-		for(Map.Entry<String, ClientHandler> iterator : students.entrySet()){
-			student = iterator.getValue();
-			if(student.isIn())
-				str.append(":" + student.name);
+		User user;
+		for(Map.Entry<String, User> iterator : students.entrySet()){
+			user = iterator.getValue();
+			if(user.isIn())
+				str.append(":" + user.name);
 		}
 		
 		return str.toString();
