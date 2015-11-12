@@ -1,7 +1,5 @@
 package main;
 
-import java.util.Map;
-
 public class ShutdownCommandHandler extends CommandHandler {
 	
 	Server server;
