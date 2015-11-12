@@ -14,12 +14,12 @@ public class Server {
 	private ServerSocket serverSocket;
 	private boolean running;
 	private final List<ClientHandler> clients;
-	static Map<String, User> students;
+	private static Map<String, User> students;
 
 	public Server(int port) {
 		students = new HashMap<String, User>();
 		this.port = port;
-		clients = Collections.synchronizedList(new LinkedList<ClientHandler>());
+		clients = Collections.synchronizedList(new LinkedList<ClientHandler>());		
 	}
 
 	public void StartServer() {
@@ -81,10 +81,11 @@ public class Server {
 			return new InfoCommandHandler(split, students, client);
 		} else if ("listavailable".equals(split[0])) {
 			return new ListAvailableCommandHandler(split, students, client);
-		} else if ("shutdown".equals(split[0])) {
+		} else if("listabsent".equals(split[0])){
+			return new ListAbsentHandler(split, students, client);
+		}else if ("shutdown".equals(split[0])) {
 			return new ShutdownCommandHandler(split, client);
 		}
-
 		throw new IllegalArgumentException("error: unknown command");
 	}
 

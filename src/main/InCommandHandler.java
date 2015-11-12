@@ -21,14 +21,6 @@ public class InCommandHandler extends CommandHandler {
 
 	@Override
 	protected String perform() {
-		/*if(students.containsKey(executorName)){
-			clientHandler = students.get(executorName);
-		}else{
-			clientHandler.user.name = executorName;
-			students.put(executorName, clientHandler);
-		}*/
-		
-		
 		if(students.containsKey(executorName))
 			clientHandler.user = students.get(executorName);
 		else{
