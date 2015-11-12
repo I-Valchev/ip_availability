@@ -10,7 +10,7 @@ public class Main {
 
 	public static void main(String[] args) {	
 		students = new HashMap<String, Student>();
-		Server s = new Server(9008);
+		Server s = new Server(9000);
 		
 		try {
 			s.StartServer();
