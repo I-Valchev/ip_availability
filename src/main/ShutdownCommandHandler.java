@@ -3,16 +3,17 @@ package main;
 import java.util.Map;
 
 public class ShutdownCommandHandler extends CommandHandler {
+	
+	Server server;
 
-	public ShutdownCommandHandler(String [] split, Map<String, Student> students) {
+	public ShutdownCommandHandler(String [] split, Map<String, Student> students, Server server) {
 		super(split, students);
+		this.server = server;
 	}
 
 	@Override
 	protected String perform() {
-		// TODO Auto-generated method stub
-//		server.stop();
-		System.exit(0);
+		server.stopServer();
 		return "ok";
 	}
 	
