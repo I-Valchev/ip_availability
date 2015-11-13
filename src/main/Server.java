@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 public class Server {
+	protected static final String LOGOUT_COMMAND = "logout";
+	
 	private final int port;
 	private ServerSocket serverSocket;
 	private boolean running;
-	private final List<ClientHandler> clients;
+	private static List<ClientHandler> clients;
 	private static Map<String, User> students;
 
 	public Server(int port) {
@@ -29,7 +31,6 @@ public class Server {
 			setRunning(true);
 
 			while (isRunning()) {
-
 				final Socket socket = serverSocket.accept();
 				final ClientHandler client = new ClientHandler(socket);
 				clients.add(client);
@@ -37,14 +38,12 @@ public class Server {
 			}
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				stopServer();
 				serverSocket.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -56,10 +55,27 @@ public class Server {
 			for (ClientHandler client : clients) {
 				client.stopClient();
 			}
+			serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	public synchronized static ClientHandler getClient(User user){
+		for(ClientHandler client : clients)
+			if(client.user.equals(user))
+				return client;
+		throw new IllegalArgumentException("No such client");
+	}
+	
+	public synchronized static void removeClient(ClientHandler client){
+		try {
+			client.stopClient();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		clients.remove(client);
 	}
 
 	public synchronized boolean isRunning() {

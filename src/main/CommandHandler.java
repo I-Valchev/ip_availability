@@ -21,7 +21,7 @@ public abstract class CommandHandler {
 		targetName = (split.length > 1) ? split[1]:null;
 	}
 	
-	public boolean authenticate(){
+	public synchronized boolean authenticate(){
 		return students.containsKey(executorName) && students.get(executorName).isIn();
 	}	
 }

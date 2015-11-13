@@ -9,8 +9,6 @@ public class ClientHandler implements Runnable {
 	private final Socket socket;
 	protected User user;
 
-	private static final String LOGOUT_COMMAND = "logout";
-
 	public ClientHandler(Socket socket) {
 		this.socket = socket;
 		user = new User();
@@ -33,14 +31,13 @@ public class ClientHandler implements Runnable {
 			out.close();
 
 		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
+			Server.parse(String.format(Server.LOGOUT_COMMAND), this).execute();
 			try {
 				socket.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
-			Server.parse(String.format(LOGOUT_COMMAND), this).execute();
+			e.printStackTrace();
 		}
 	}
 

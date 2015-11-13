@@ -6,13 +6,13 @@ import java.util.Map;
 public class InCommandHandler extends CommandHandler {
 
 	ClientHandler clientHandler;
-	
-	public InCommandHandler(String[] split, Map<String, User> students, ClientHandler clientHandler){
+
+	public InCommandHandler(String[] split, Map<String, User> students, ClientHandler clientHandler) {
 		super(split, students, clientHandler);
 		this.executorName = split[1];
 		this.clientHandler = clientHandler;
 	}
-	
+
 	@Override
 	public String execute() {
 		// TODO Auto-generated method stub
@@ -20,22 +20,26 @@ public class InCommandHandler extends CommandHandler {
 	}
 
 	@Override
-	protected String perform() {
-		if(students.containsKey(executorName))
-			clientHandler.user = students.get(executorName);
-		else{
-			clientHandler.user = new User(executorName);
-			students.put(executorName, clientHandler.user);
-		}
-		login(clientHandler);
+	protected synchronized String perform() {
 		
-//		TODO how should we add a new client
+		User user;
+		if(students.containsKey(targetName))
+			user = students.get(targetName);
+		else{
+			user = new User(targetName);
+			students.put(targetName, user);
+		}
+		
+		login(user);
+		clientHandler.user = user;
 		
 		return "ok";
 	}
 	
-	private void login(ClientHandler client){
-		client.user.in(new Date());
+	private synchronized void login(User user){
+		if(user.isIn())
+			Server.removeClient(Server.getClient(user));
+		else
+			user.in(new Date());
 	}
-
 }
