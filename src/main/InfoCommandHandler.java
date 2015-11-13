@@ -20,15 +20,15 @@ public class InfoCommandHandler extends CommandHandler {
 		StringBuilder str = new StringBuilder();
 		User user = Server.users.get(targetName);
 		int loginCount = user.records.size();
-		str.append("ok:" + targetName + ":" + user.isIn() + ":" + loginCount + ":");
+		str.append("ok:" + targetName + ":" + user.isIn() + ":" + loginCount);
 		
 		for (Record r : user.records) {
 			Date inDate = r.getInTime();
 			Date outDate = r.getOutTime();
 			DateFormat timeFormatter = new SimpleDateFormat("yyyy-­MM-­dd'T'HH'_'mm'_'ss.SSSZ");
-			str.append(timeFormatter.format(inDate));
+			str.append(":"+timeFormatter.format(inDate));
 			if (outDate != null)
-				str.append(timeFormatter.format(outDate));
+				str.append(":" + timeFormatter.format(outDate));
 		}
 
 		return str.toString();
