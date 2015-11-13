@@ -16,10 +16,10 @@ public class Server {
 	private ServerSocket serverSocket;
 	private boolean running;
 	private static List<ClientHandler> clients;
-	private static Map<String, User> students;
+	protected static Map<String, User> users;
 
 	public Server(int port) {
-		students = new HashMap<String, User>();
+		users = new HashMap<String, User>();
 		this.port = port;
 		clients = Collections.synchronizedList(new LinkedList<ClientHandler>());
 	}
@@ -93,15 +93,15 @@ public class Server {
 
 		final String[] split = input.split(":");
 		if ("login".equals(split[0])) {
-			return new InCommandHandler(split, students, client);
+			return new InCommandHandler(split, client);
 		} else if ("logout".equals(split[0])) {
-			return new OutCommandHandler(split, students, client);
+			return new OutCommandHandler(split, client);
 		} else if ("info".equals(split[0])) {
-			return new InfoCommandHandler(split, students, client);
+			return new InfoCommandHandler(split, client);
 		} else if ("listavailable".equals(split[0])) {
-			return new ListAvailableCommandHandler(split, students, client);
+			return new ListAvailableCommandHandler(split, client);
 		} else if ("listabsent".equals(split[0])) {
-			return new ListAbsentHandler(split, students, client);
+			return new ListAbsentHandler(split, client);
 		} else if ("shutdown".equals(split[0])) {
 			return new ShutdownCommandHandler(split, client);
 		}

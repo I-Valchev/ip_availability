@@ -3,23 +3,22 @@ package main;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 
 public class InfoCommandHandler extends CommandHandler {
 
-	public InfoCommandHandler(String[] split, Map<String, User> students, ClientHandler clientHandler) {
-		super(split, students, clientHandler);
+	public InfoCommandHandler(String[] split, ClientHandler clientHandler) {
+		super(split, clientHandler);
 	}
 
 	@Override
 	public boolean authenticate() {
-		return super.authenticate() && (students.containsKey(targetName));
+		return super.authenticate() && (Server.users.containsKey(targetName));
 	}
 
 	@Override
 	protected String perform() {
 		StringBuilder str = new StringBuilder();
-		User user = students.get(targetName);
+		User user = Server.users.get(targetName);
 		int loginCount = user.records.size();
 		str.append("ok:" + targetName + ":" + user.isIn() + ":" + loginCount + ":");
 		

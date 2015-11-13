@@ -6,7 +6,7 @@ public class ShutdownCommandHandler extends CommandHandler {
 	ClientHandler clientHandler;
 
 	public ShutdownCommandHandler(String [] split, ClientHandler clientHandler) {
-		super(split, students, clientHandler);
+		super(split, clientHandler);
 		this.server = Main.server;
 		this.clientHandler = clientHandler;
 	}

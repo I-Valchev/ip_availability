@@ -1,10 +1,7 @@
 package main;
 
-import java.util.Map;
-
 public abstract class CommandHandler {
 
-	protected static Map<String, User> students;
 	protected String executorName, targetName;
 	
 	public String execute(){
@@ -15,13 +12,12 @@ public abstract class CommandHandler {
 	
 	protected abstract String perform();
 	
-	public CommandHandler(String[] split, Map<String, User> students, ClientHandler clientHandler){
-		CommandHandler.students = students;
+	public CommandHandler(String[] split, ClientHandler clientHandler){
 		this.executorName = clientHandler.user.name;
 		targetName = (split.length > 1) ? split[1]:null;
 	}
 	
 	public synchronized boolean authenticate(){
-		return students.containsKey(executorName) && students.get(executorName).isIn();
+		return Server.users.containsKey(executorName) && Server.users.get(executorName).isIn();
 	}	
 }

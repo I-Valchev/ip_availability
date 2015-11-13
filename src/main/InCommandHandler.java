@@ -1,21 +1,19 @@
 package main;
 
 import java.util.Date;
-import java.util.Map;
 
 public class InCommandHandler extends CommandHandler {
 
 	ClientHandler clientHandler;
 
-	public InCommandHandler(String[] split, Map<String, User> students, ClientHandler clientHandler) {
-		super(split, students, clientHandler);
+	public InCommandHandler(String[] split, ClientHandler clientHandler) {
+		super(split, clientHandler);
 		this.executorName = split[1];
 		this.clientHandler = clientHandler;
 	}
 
 	@Override
 	public String execute() {
-		// TODO Auto-generated method stub
 		return perform();
 	}
 
@@ -23,11 +21,11 @@ public class InCommandHandler extends CommandHandler {
 	protected synchronized String perform() {
 		
 		User user;
-		if(students.containsKey(targetName))
-			user = students.get(targetName);
+		if(Server.users.containsKey(targetName)) //for inCommand, targetName equals executorName
+			user = Server.users.get(targetName);
 		else{
 			user = new User(targetName);
-			students.put(targetName, user);
+			Server.users.put(targetName, user);
 		}
 		
 		login(user);
