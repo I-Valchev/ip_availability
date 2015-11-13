@@ -32,6 +32,7 @@ public class ClientHandler implements Runnable {
 
 			scanner.close();
 			out.close();
+			socket.close();
 
 		} catch (IOException e) {
 			Server.parse(String.format(Server.LOGOUT_COMMAND), this).execute();
