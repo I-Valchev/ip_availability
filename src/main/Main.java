@@ -5,8 +5,12 @@ import java.io.IOException;
 public class Main {
 	public static Server server;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args){
 		server = new Server(8009);
-		server.StartServer();
+		try {
+			server.StartServer();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

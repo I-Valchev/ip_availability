@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Server {
 	protected static final String LOGOUT_COMMAND = "logout";
-	
+
 	private final int port;
 	private ServerSocket serverSocket;
 	private boolean running;
@@ -21,15 +21,12 @@ public class Server {
 	public Server(int port) {
 		students = new HashMap<String, User>();
 		this.port = port;
-		clients = Collections.synchronizedList(new LinkedList<ClientHandler>());		
+		clients = Collections.synchronizedList(new LinkedList<ClientHandler>());
 	}
 
-	public void StartServer() {
+	public void StartServer() throws IOException {
+		serverSocket = createServerSocket();
 		try {
-			serverSocket = new ServerSocket(port);
-
-			setRunning(true);
-
 			while (isRunning()) {
 				final Socket socket = serverSocket.accept();
 				final ClientHandler client = new ClientHandler(socket);
@@ -38,15 +35,22 @@ public class Server {
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				stopServer();
-				serverSocket.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			if (!serverSocket.isClosed())
+				throw e;
 		}
+
+		stopServer();
+		serverSocket.close();
+	}
+	
+	private synchronized ServerSocket createServerSocket() throws IOException{
+		if(isRunning())
+			throw new IllegalStateException("Already running");
+		
+		setRunning(true);
+		
+		serverSocket = new ServerSocket(port);
+		return serverSocket;
 	}
 
 	public synchronized void stopServer() {
@@ -60,19 +64,18 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	
-	public synchronized static ClientHandler getClient(User user){
-		for(ClientHandler client : clients)
-			if(client.user.equals(user))
+
+	public synchronized static ClientHandler getClient(User user) {
+		for (ClientHandler client : clients)
+			if (client.user.equals(user))
 				return client;
 		throw new IllegalArgumentException("No such client");
 	}
-	
-	public synchronized static void removeClient(ClientHandler client){
+
+	public synchronized static void removeClient(ClientHandler client) {
 		try {
 			client.stopClient();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		clients.remove(client);
@@ -97,9 +100,9 @@ public class Server {
 			return new InfoCommandHandler(split, students, client);
 		} else if ("listavailable".equals(split[0])) {
 			return new ListAvailableCommandHandler(split, students, client);
-		} else if("listabsent".equals(split[0])){
+		} else if ("listabsent".equals(split[0])) {
 			return new ListAbsentHandler(split, students, client);
-		}else if ("shutdown".equals(split[0])) {
+		} else if ("shutdown".equals(split[0])) {
 			return new ShutdownCommandHandler(split, client);
 		}
 		throw new IllegalArgumentException("error: unknown command");

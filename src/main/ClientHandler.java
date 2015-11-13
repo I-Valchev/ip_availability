@@ -8,6 +8,9 @@ import java.util.Scanner;
 public class ClientHandler implements Runnable {
 	private final Socket socket;
 	protected User user;
+	
+	private PrintStream out;
+	private Scanner scanner;
 
 	public ClientHandler(Socket socket) {
 		this.socket = socket;
@@ -17,9 +20,9 @@ public class ClientHandler implements Runnable {
 	@Override
 	public void run() {
 		try {
-			PrintStream out = new PrintStream(socket.getOutputStream());
+			out = new PrintStream(socket.getOutputStream());
 
-			final Scanner scanner = new Scanner(socket.getInputStream());
+			scanner = new Scanner(socket.getInputStream());
 
 			while (scanner.hasNextLine()) {
 				final String line = scanner.nextLine();
