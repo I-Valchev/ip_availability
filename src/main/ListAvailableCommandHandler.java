@@ -4,8 +4,8 @@ import java.util.Map;
 
 public class ListAvailableCommandHandler extends CommandHandler {
 	
-	public ListAvailableCommandHandler(String[] split, ClientHandler clientHandler){
-		super(split, clientHandler);
+	public ListAvailableCommandHandler(String[] split, ClientHandler clientHandler, Server server){
+		super(split, clientHandler, server);
 	}
 	
 	@Override

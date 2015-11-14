@@ -6,8 +6,8 @@ import java.util.Date;
 
 public class InfoCommandHandler extends CommandHandler {
 
-	public InfoCommandHandler(String[] split, ClientHandler clientHandler) {
-		super(split, clientHandler);
+	public InfoCommandHandler(String[] split, ClientHandler clientHandler, Server server) {
+		super(split, clientHandler, server);
 	}
 
 	@Override

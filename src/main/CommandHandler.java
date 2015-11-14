@@ -3,6 +3,7 @@ package main;
 public abstract class CommandHandler {
 
 	protected String executorName, targetName;
+	protected Server server;
 	
 	public String execute(){
 		if(authenticate())
@@ -12,8 +13,9 @@ public abstract class CommandHandler {
 	
 	protected abstract String perform();
 	
-	public CommandHandler(String[] split, ClientHandler clientHandler){
+	public CommandHandler(String[] split, ClientHandler clientHandler, Server server){
 		this.executorName = clientHandler.user.name;
+		this.server = server;
 		targetName = (split.length > 1) ? split[1]:null;
 	}
 	

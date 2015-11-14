@@ -2,10 +2,10 @@ package main;
 
 import java.util.Map;
 
-public class ListAbsentHandler extends CommandHandler {
+public class ListAbsentCommandHandler extends CommandHandler {
 
-	public ListAbsentHandler(String[] split, ClientHandler clientHandler) {
-		super(split, clientHandler);
+	public ListAbsentCommandHandler(String[] split, ClientHandler clientHandler, Server server) {
+		super(split, clientHandler, server);
 	}
 
 	@Override

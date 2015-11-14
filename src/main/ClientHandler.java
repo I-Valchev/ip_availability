@@ -8,12 +8,14 @@ import java.util.Scanner;
 public class ClientHandler implements Runnable {
 	private final Socket socket;
 	protected User user;
+	private final Server server;
 	
 	private PrintStream out;
 	private Scanner scanner;
 
-	public ClientHandler(Socket socket) {
+	public ClientHandler(Socket socket, Server server) {
 		this.socket = socket;
+		this.server = server;
 		user = new User();
 	}
 
@@ -26,7 +28,7 @@ public class ClientHandler implements Runnable {
 
 			while (scanner.hasNextLine()) {
 				final String line = scanner.nextLine();
-				CommandHandler handler = Server.parse(line, this);
+				CommandHandler handler = server.parse(line, this);
 				out.println(handler.execute());
 			}
 
@@ -35,7 +37,7 @@ public class ClientHandler implements Runnable {
 			socket.close();
 
 		} catch (IOException e) {
-			Server.parse(String.format(Server.LOGOUT_COMMAND), this).execute();
+			server.parse(String.format(Server.LOGOUT_COMMAND), this).execute();
 			try {
 				socket.close();
 			} catch (IOException e1) {

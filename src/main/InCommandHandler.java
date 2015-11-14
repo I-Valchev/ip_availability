@@ -6,8 +6,8 @@ public class InCommandHandler extends CommandHandler {
 
 	ClientHandler clientHandler;
 
-	public InCommandHandler(String[] split, ClientHandler clientHandler) {
-		super(split, clientHandler);
+	public InCommandHandler(String[] split, ClientHandler clientHandler, Server server) {
+		super(split, clientHandler, server);
 		this.executorName = split[1];
 		this.clientHandler = clientHandler;
 	}
@@ -36,7 +36,7 @@ public class InCommandHandler extends CommandHandler {
 	
 	private synchronized void login(User user){
 		if(user.isIn())
-			Server.removeClient(Server.getClient(user));
+			server.removeClient(server.getClient(user));
 		else
 			user.in(new Date());
 	}

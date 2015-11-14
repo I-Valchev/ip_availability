@@ -15,13 +15,22 @@ public class Server {
 	private final int port;
 	private ServerSocket serverSocket;
 	private boolean running;
-	private static List<ClientHandler> clients;
+	private List<ClientHandler> clients;
+	private Map<String, Class<? extends CommandHandler>> commandsList;
 	protected static Map<String, User> users;
 
 	public Server(int port) {
 		users = new HashMap<String, User>();
 		this.port = port;
 		clients = Collections.synchronizedList(new LinkedList<ClientHandler>());
+		
+		commandsList = new HashMap<String, Class<? extends CommandHandler>>();
+		commandsList.put("login", InCommandHandler.class);
+		commandsList.put("logout", OutCommandHandler.class);
+		commandsList.put("info", InfoCommandHandler.class);
+		commandsList.put("listavailable", ListAvailableCommandHandler.class);
+		commandsList.put("listabsent", ListAbsentCommandHandler.class);
+		commandsList.put("shutdown", ShutdownCommandHandler.class);
 	}
 
 	public void StartServer() throws IOException {
@@ -29,7 +38,7 @@ public class Server {
 		try {
 			while (isRunning()) {
 				final Socket socket = serverSocket.accept();
-				final ClientHandler client = new ClientHandler(socket);
+				final ClientHandler client = new ClientHandler(socket, this);
 				clients.add(client);
 				new Thread(client).start();
 			}
@@ -40,7 +49,6 @@ public class Server {
 		}
 
 		stopServer();
-		serverSocket.close();
 	}
 	
 	private synchronized ServerSocket createServerSocket() throws IOException{
@@ -65,14 +73,14 @@ public class Server {
 		}
 	}
 
-	public synchronized static ClientHandler getClient(User user) {
+	public synchronized ClientHandler getClient(User user) {
 		for (ClientHandler client : clients)
 			if (client.user.equals(user))
 				return client;
 		throw new IllegalArgumentException("No such client");
 	}
 
-	public synchronized static void removeClient(ClientHandler client) {
+	public synchronized void removeClient(ClientHandler client) {
 		try {
 			client.stopClient();
 		} catch (IOException e) {
@@ -89,23 +97,17 @@ public class Server {
 		this.running = running;
 	}
 
-	public static CommandHandler parse(String input, ClientHandler client) {
-
+	public CommandHandler parse(String input, ClientHandler client){
 		final String[] split = input.split(":");
-		if ("login".equals(split[0])) {
-			return new InCommandHandler(split, client);
-		} else if ("logout".equals(split[0])) {
-			return new OutCommandHandler(split, client);
-		} else if ("info".equals(split[0])) {
-			return new InfoCommandHandler(split, client);
-		} else if ("listavailable".equals(split[0])) {
-			return new ListAvailableCommandHandler(split, client);
-		} else if ("listabsent".equals(split[0])) {
-			return new ListAbsentHandler(split, client);
-		} else if ("shutdown".equals(split[0])) {
-			return new ShutdownCommandHandler(split, client);
+		try {
+			return (CommandHandler) commandsList.get(split[0]).getConstructor(String[].class, ClientHandler.class, Server.class)
+					.newInstance(split, client, this);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
 		throw new IllegalArgumentException("error: unknown command");
+		
 	}
 
 }

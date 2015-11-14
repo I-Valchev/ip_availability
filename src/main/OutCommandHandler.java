@@ -6,8 +6,8 @@ public class OutCommandHandler extends CommandHandler {
 	
 	ClientHandler clientHandler;
 	
-	public OutCommandHandler(String[] split, ClientHandler clientHandler){
-		super(split, clientHandler);
+	public OutCommandHandler(String[] split, ClientHandler clientHandler, Server server){
+		super(split, clientHandler, server);
 		this.clientHandler = clientHandler;
 	}
 
