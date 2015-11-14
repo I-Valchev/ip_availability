@@ -42,7 +42,7 @@ public class ClientHandler implements Runnable {
 			socket.close();
 
 		} catch (IOException e) {
-			server.parse(String.format(Server.LOGOUT_COMMAND), this).execute();
+			server.parse(Server.LOGOUT_COMMAND, this).execute();
 			try {
 				stopClient();
 			} catch (IOException e1) {

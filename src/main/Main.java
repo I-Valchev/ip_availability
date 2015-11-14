@@ -6,7 +6,7 @@ public class Main {
 	public static Server server;
 
 	public static void main(String[] args){
-		server = new Server(8000);
+		server = new Server(8001);
 		try {
 			server.StartServer();
 		} catch (IOException e) {

@@ -17,7 +17,11 @@ public class ShutdownCommandHandler extends CommandHandler {
 
 	@Override
 	protected String perform() {
-		server.parse(Server.LOGOUT_COMMAND, clientHandler).execute();
+		for(ClientHandler client : server.getClients()){
+			if(client.getUser().isIn())
+				server.parse(Server.LOGOUT_COMMAND, client);
+		}
+		
 		server.stopServer();
 		return "ok";
 	}

@@ -32,7 +32,7 @@ public class Server {
 	public Server(int port) {
 		setUsers(new HashMap<String, User>());
 		this.port = port;
-		clients = Collections.synchronizedList(new LinkedList<ClientHandler>());
+		setClients(Collections.synchronizedList(new LinkedList<ClientHandler>()));
 		
 		commandsList = new HashMap<String, Class<? extends CommandHandler>>();
 		commandsList.put("login", InCommandHandler.class);
@@ -49,7 +49,7 @@ public class Server {
 			while (isRunning()) {
 				final Socket socket = serverSocket.accept();
 				final ClientHandler client = new ClientHandler(socket, this);
-				clients.add(client);
+				getClients().add(client);
 				new Thread(client).start();
 			}
 
@@ -74,7 +74,7 @@ public class Server {
 	public synchronized void stopServer() {
 		setRunning(false);
 		try {
-			for (ClientHandler client : clients) {
+			for (ClientHandler client : getClients()) {
 				client.stopClient();
 			}
 			serverSocket.close();
@@ -84,7 +84,7 @@ public class Server {
 	}
 
 	public synchronized ClientHandler getClient(User user) {
-		for (ClientHandler client : clients)
+		for (ClientHandler client : getClients())
 			if (client.getUser().equals(user))
 				return client;
 		throw new IllegalArgumentException("No such client");
@@ -96,7 +96,7 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		clients.remove(client);
+		getClients().remove(client);
 	}
 
 	public synchronized boolean isRunning() {
@@ -126,6 +126,14 @@ public class Server {
 
 	public void setUsers(Map<String, User> users) {
 		this.users = users;
+	}
+
+	public List<ClientHandler> getClients() {
+		return clients;
+	}
+
+	public void setClients(List<ClientHandler> clients) {
+		this.clients = clients;
 	}
 
 }
