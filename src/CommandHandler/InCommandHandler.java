@@ -1,6 +1,10 @@
-package main;
+package CommandHandler;
 
 import java.util.Date;
+
+import client.ClientHandler;
+import client.User;
+import main.Server;
 
 public class InCommandHandler extends CommandHandler {
 
@@ -21,15 +25,15 @@ public class InCommandHandler extends CommandHandler {
 	protected synchronized String perform() {
 		
 		User user;
-		if(Server.users.containsKey(targetName)) //for inCommand, targetName equals executorName
-			user = Server.users.get(targetName);
+		if(server.getUsers().containsKey(targetName)) //for inCommand, targetName equals executorName
+			user = server.getUsers().get(targetName);
 		else{
 			user = new User(targetName);
-			Server.users.put(targetName, user);
+			server.getUsers().put(targetName, user);
 		}
 		
 		login(user);
-		clientHandler.user = user;
+		clientHandler.setUser(user);
 		
 		return "ok";
 	}

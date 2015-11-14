@@ -1,13 +1,16 @@
-package main;
+package client;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+import CommandHandler.CommandHandler;
+import main.Server;
+
 public class ClientHandler implements Runnable {
 	private final Socket socket;
-	protected User user;
+	private User user;
 	private final Server server;
 	
 	private PrintStream out;
@@ -16,7 +19,7 @@ public class ClientHandler implements Runnable {
 	public ClientHandler(Socket socket, Server server) {
 		this.socket = socket;
 		this.server = server;
-		user = new User();
+		setUser(new User());
 	}
 
 	@Override
@@ -49,5 +52,13 @@ public class ClientHandler implements Runnable {
 
 	public void stopClient() throws IOException {
 		socket.close();
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

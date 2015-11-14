@@ -1,6 +1,10 @@
-package main;
+package CommandHandler;
 
 import java.util.Date;
+
+import client.ClientHandler;
+import client.User;
+import main.Server;
 
 public class OutCommandHandler extends CommandHandler {
 	
@@ -13,8 +17,8 @@ public class OutCommandHandler extends CommandHandler {
 
 	@Override
 	protected String perform() {
-		clientHandler.user.out(new Date());
-		clientHandler.user = new User();
+		clientHandler.getUser().out(new Date());
+		clientHandler.setUser(new User());
 		return "ok";
 	}
 

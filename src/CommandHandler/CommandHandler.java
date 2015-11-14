@@ -1,4 +1,7 @@
-package main;
+package CommandHandler;
+
+import client.ClientHandler;
+import main.Server;
 
 public abstract class CommandHandler {
 
@@ -14,12 +17,12 @@ public abstract class CommandHandler {
 	protected abstract String perform();
 	
 	public CommandHandler(String[] split, ClientHandler clientHandler, Server server){
-		this.executorName = clientHandler.user.name;
+		this.executorName = clientHandler.getUser().name;
 		this.server = server;
 		targetName = (split.length > 1) ? split[1]:null;
 	}
 	
 	public synchronized boolean authenticate(){
-		return Server.users.containsKey(executorName) && Server.users.get(executorName).isIn();
+		return server.getUsers().containsKey(executorName) && server.getUsers().get(executorName).isIn();
 	}	
 }

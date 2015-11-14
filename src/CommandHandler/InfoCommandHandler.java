@@ -1,8 +1,13 @@
-package main;
+package CommandHandler;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import client.ClientHandler;
+import client.Record;
+import client.User;
+import main.Server;
 
 public class InfoCommandHandler extends CommandHandler {
 
@@ -12,13 +17,13 @@ public class InfoCommandHandler extends CommandHandler {
 
 	@Override
 	public boolean authenticate() {
-		return super.authenticate() && (Server.users.containsKey(targetName));
+		return super.authenticate() && (server.getUsers().containsKey(targetName));
 	}
 
 	@Override
 	protected String perform() {
 		StringBuilder str = new StringBuilder();
-		User user = Server.users.get(targetName);
+		User user = server.getUsers().get(targetName);
 		int loginCount = user.records.size();
 		str.append("ok:" + targetName + ":" + user.isIn() + ":" + loginCount);
 		

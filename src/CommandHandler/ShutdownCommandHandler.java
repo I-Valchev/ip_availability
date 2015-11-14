@@ -1,4 +1,8 @@
-package main;
+package CommandHandler;
+
+import client.ClientHandler;
+import main.Main;
+import main.Server;
 
 public class ShutdownCommandHandler extends CommandHandler {
 	

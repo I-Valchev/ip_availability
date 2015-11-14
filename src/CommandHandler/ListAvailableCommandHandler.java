@@ -1,6 +1,10 @@
-package main;
+package CommandHandler;
 
 import java.util.Map;
+
+import client.ClientHandler;
+import client.User;
+import main.Server;
 
 public class ListAvailableCommandHandler extends CommandHandler {
 	
@@ -13,7 +17,7 @@ public class ListAvailableCommandHandler extends CommandHandler {
 		StringBuilder str = new StringBuilder();
 		str.append("ok");
 		User user;
-		for(Map.Entry<String, User> iterator : Server.users.entrySet()){
+		for(Map.Entry<String, User> iterator : server.getUsers().entrySet()){
 			user = iterator.getValue();
 			if(user.isIn())
 				str.append(":" + user.name);

@@ -9,18 +9,28 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import CommandHandler.CommandHandler;
+import CommandHandler.InCommandHandler;
+import CommandHandler.InfoCommandHandler;
+import CommandHandler.ListAbsentCommandHandler;
+import CommandHandler.ListAvailableCommandHandler;
+import CommandHandler.OutCommandHandler;
+import CommandHandler.ShutdownCommandHandler;
+import client.ClientHandler;
+import client.User;
+
 public class Server {
-	protected static final String LOGOUT_COMMAND = "logout";
+	public static final String LOGOUT_COMMAND = "logout";
 
 	private final int port;
 	private ServerSocket serverSocket;
 	private boolean running;
 	private List<ClientHandler> clients;
 	private Map<String, Class<? extends CommandHandler>> commandsList;
-	protected static Map<String, User> users;
+	private Map<String, User> users;
 
 	public Server(int port) {
-		users = new HashMap<String, User>();
+		setUsers(new HashMap<String, User>());
 		this.port = port;
 		clients = Collections.synchronizedList(new LinkedList<ClientHandler>());
 		
@@ -75,7 +85,7 @@ public class Server {
 
 	public synchronized ClientHandler getClient(User user) {
 		for (ClientHandler client : clients)
-			if (client.user.equals(user))
+			if (client.getUser().equals(user))
 				return client;
 		throw new IllegalArgumentException("No such client");
 	}
@@ -108,6 +118,14 @@ public class Server {
 		
 		throw new IllegalArgumentException("error: unknown command");
 		
+	}
+
+	public Map<String, User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Map<String, User> users) {
+		this.users = users;
 	}
 
 }
