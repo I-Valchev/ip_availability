@@ -26,13 +26,15 @@ public class ClientHandler implements Runnable {
 	public void run() {
 		try {
 			out = new PrintStream(socket.getOutputStream());
-
 			scanner = new Scanner(socket.getInputStream());
 
+			out.print("въведете команда: ");
 			while (scanner.hasNextLine()) {
+				
 				final String line = scanner.nextLine();
 				CommandHandler handler = server.parse(line, this);
 				out.println(handler.execute());
+				out.print("въведете команда: ");
 			}
 
 			scanner.close();
@@ -42,7 +44,7 @@ public class ClientHandler implements Runnable {
 		} catch (IOException e) {
 			server.parse(String.format(Server.LOGOUT_COMMAND), this).execute();
 			try {
-				socket.close();
+				stopClient();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
