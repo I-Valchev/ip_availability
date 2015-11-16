@@ -35,7 +35,7 @@ public class InCommandHandler extends CommandHandler {
 		login(user);
 		clientHandler.setUser(user);
 		
-		return "ok";
+		return OK_COMMAND;
 	}
 	
 	private synchronized void login(User user){

@@ -20,6 +20,11 @@ import client.ClientHandler;
 import client.User;
 
 public class Server {
+	
+	private static final String ERROR_UNKNOWN_COMMAND = "error: unknown command";
+	private static final String NO_SUCH_CLIENT = "No such client";
+	private static final String LOGIN_COMMAND = "login", INFO_COMMAND = "info", LISTAVAILABLE_COMMAND = "listavailable",
+			LISTABSENT_COMMAND = "listabsent", SHUTDOWN_COMMAND = "shutdown";
 	public static final String LOGOUT_COMMAND = "logout";
 
 	private final int port;
@@ -33,14 +38,14 @@ public class Server {
 		setUsers(new HashMap<String, User>());
 		this.port = port;
 		setClients(Collections.synchronizedList(new LinkedList<ClientHandler>()));
-		
+
 		commandsList = new HashMap<String, Class<? extends CommandHandler>>();
-		commandsList.put("login", InCommandHandler.class);
-		commandsList.put("logout", OutCommandHandler.class);
-		commandsList.put("info", InfoCommandHandler.class);
-		commandsList.put("listavailable", ListAvailableCommandHandler.class);
-		commandsList.put("listabsent", ListAbsentCommandHandler.class);
-		commandsList.put("shutdown", ShutdownCommandHandler.class);
+		commandsList.put(LOGIN_COMMAND, InCommandHandler.class);
+		commandsList.put(LOGOUT_COMMAND, OutCommandHandler.class);
+		commandsList.put(INFO_COMMAND, InfoCommandHandler.class);
+		commandsList.put(LISTAVAILABLE_COMMAND, ListAvailableCommandHandler.class);
+		commandsList.put(LISTABSENT_COMMAND, ListAbsentCommandHandler.class);
+		commandsList.put(SHUTDOWN_COMMAND, ShutdownCommandHandler.class);
 	}
 
 	public void StartServer() throws IOException {
@@ -60,13 +65,13 @@ public class Server {
 
 		stopServer();
 	}
-	
-	private synchronized ServerSocket createServerSocket() throws IOException{
-		if(isRunning())
+
+	private synchronized ServerSocket createServerSocket() throws IOException {
+		if (isRunning())
 			throw new IllegalStateException("Already running");
-		
+
 		setRunning(true);
-		
+
 		serverSocket = new ServerSocket(port);
 		return serverSocket;
 	}
@@ -87,15 +92,11 @@ public class Server {
 		for (ClientHandler client : getClients())
 			if (client.getUser().equals(user))
 				return client;
-		throw new IllegalArgumentException("No such client");
+		throw new IllegalArgumentException(NO_SUCH_CLIENT);
 	}
 
 	public synchronized void removeClient(ClientHandler client) {
-		try {
-			client.stopClient();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		client.stopClient();
 		getClients().remove(client);
 	}
 
@@ -107,17 +108,16 @@ public class Server {
 		this.running = running;
 	}
 
-	public CommandHandler parse(String input, ClientHandler client){
+	public CommandHandler parse(String input, ClientHandler client) throws IllegalArgumentException {
 		final String[] split = input.split(":");
+
 		try {
-			return (CommandHandler) commandsList.get(split[0]).getConstructor(String[].class, ClientHandler.class, Server.class)
-					.newInstance(split, client, this);
+			return (CommandHandler) commandsList.get(split[0])
+					.getConstructor(String[].class, ClientHandler.class, Server.class).newInstance(split, client, this);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new IllegalArgumentException(ERROR_UNKNOWN_COMMAND);
 		}
-		
-		throw new IllegalArgumentException("error: unknown command");
-		
+
 	}
 
 	public Map<String, User> getUsers() {

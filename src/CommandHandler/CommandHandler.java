@@ -4,7 +4,8 @@ import client.ClientHandler;
 import main.Server;
 
 public abstract class CommandHandler {
-
+	
+	protected static final String OK_COMMAND = "ok";
 	protected String executorName, targetName;
 	protected Server server;
 	

@@ -25,7 +25,7 @@ public class InfoCommandHandler extends CommandHandler {
 		StringBuilder str = new StringBuilder();
 		User user = server.getUsers().get(targetName);
 		int loginCount = user.records.size();
-		str.append("ok:" + targetName + ":" + user.isIn() + ":" + loginCount);
+		str.append(OK_COMMAND + targetName + ":" + user.isIn() + ":" + loginCount);
 		
 		for (Record r : user.records) {
 			Date inDate = r.getInTime();

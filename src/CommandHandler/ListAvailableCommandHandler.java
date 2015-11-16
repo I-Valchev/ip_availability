@@ -15,7 +15,7 @@ public class ListAvailableCommandHandler extends CommandHandler {
 	@Override
 	protected String perform() {
 		StringBuilder str = new StringBuilder();
-		str.append("ok");
+		str.append(OK_COMMAND);
 		User user;
 		for(Map.Entry<String, User> iterator : server.getUsers().entrySet()){
 			user = iterator.getValue();

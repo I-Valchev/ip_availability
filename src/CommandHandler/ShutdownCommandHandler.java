@@ -23,7 +23,7 @@ public class ShutdownCommandHandler extends CommandHandler {
 		}
 		
 		server.stopServer();
-		return "ok";
+		return OK_COMMAND;
 	}
 	
 	

@@ -19,7 +19,7 @@ public class OutCommandHandler extends CommandHandler {
 	protected String perform() {
 		clientHandler.getUser().out(new Date());
 		clientHandler.setUser(new User());
-		return "ok";
+		return OK_COMMAND;
 	}
 
 }
