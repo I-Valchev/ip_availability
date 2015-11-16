@@ -25,20 +25,11 @@ public class ClientHandler implements Runnable {
 
 	@Override
 	public void run() {
-
-		try {
-			out = new PrintStream(socket.getOutputStream());
-			scanner = new Scanner(socket.getInputStream());
-		} catch (IOException e2) {
-			e2.printStackTrace();
-		}
-
+		openStreams();
 		CommandHandler handler = null;
 		
 		while (out.printf(INPUT_MESSAGE) != null && scanner.hasNextLine()) {
-			
 			final String line = scanner.nextLine();
-			
 			try {
 				handler = server.parse(line, this);
 			} catch (IllegalArgumentException | NullPointerException e) {
@@ -54,6 +45,19 @@ public class ClientHandler implements Runnable {
 			out.println(handler.execute());
 		}
 
+		closeStreams();
+	}
+	
+	public void openStreams(){
+		try {
+			out = new PrintStream(socket.getOutputStream());
+			scanner = new Scanner(socket.getInputStream());
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+	}
+	
+	public void closeStreams(){
 		out.close();
 		scanner.close();
 		stopClient();
